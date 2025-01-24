@@ -1,8 +1,9 @@
 mod pentry;
+mod utils;
 
 use crate::pentry::prompt;
 use crate::pentry::read_passwords_file;
-
+use crate::utils::println;
 
 fn clr() {
     print!("{}[2J", 27 as char);
@@ -10,7 +11,15 @@ fn clr() {
 
 fn main() {
     clr();
-    println!("Hello, world!");
+
+    let mut action_counter = 0;
+
+    let str_prefix_header = "+-+-+-+-+-+-+-";
+    let str_prefix_choice = ">>>>>>>>>>>";
+    let str_prefix_resp = "===========>";
+    let str_prefix_footer = "X-X-X-X-X-X-X-X-X-X-X-X-X-X";
+
+
 
     let ascii = r#"
 ____    ____  ___       __       __    __  .___________. _______ .______
@@ -25,11 +34,11 @@ ____    ____  ___       __       __    __  .___________. _______ .______
     println!("{ascii}");
 
     loop {
-        println!("Available Options:-");
-        println!("1. Add a new password");
-        println!("2. View all passwords");
-        println!("3. Search for a password");
-        println!("4. Exit");
+        println("AVAILABLE OPTIONS:", Some(str_prefix_header));
+        println("1. Add a new password", Some(str_prefix_choice));
+        println("2. View all passwords", Some(str_prefix_choice));
+        println("3. Search for a password", Some(str_prefix_choice));
+        println("4. Exit", Some(str_prefix_choice));
 
 
         let mut choice = String::new();
@@ -41,7 +50,8 @@ ____    ____  ___       __       __    __  .___________. _______ .______
 
             }
             "2" => {
-
+                todo!("Make the function async and return Result<> with Error and perform Error Handling for the returned Result")
+                // let services = read_passwords_file();
             }
             "3" => {
 
@@ -50,9 +60,12 @@ ____    ____  ___       __       __    __  .___________. _______ .______
 
             }
             _ => {
-
+                println(" INVALID CHOICE.", Some(str_prefix_resp));
             }
         };
+
+        action_counter+=1;
+        println(format!(" END of response: {action_counter} {str_prefix_footer}\n\n").as_str(), Some(str_prefix_footer));
     }
 
 }
