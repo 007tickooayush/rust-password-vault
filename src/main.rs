@@ -47,7 +47,8 @@ ____    ____  ___       __       __    __  .___________. _______ .______
 
         match choice.trim() {
             "1" => {
-
+                let mut line = String::from("Service");
+                prompt(&mut line, Some(str_prefix_choice));
             }
             "2" => {
                 todo!("Make the function async and return Result<> with Error and perform Error Handling for the returned Result")
@@ -57,7 +58,7 @@ ____    ____  ___       __       __    __  .___________. _______ .______
 
             }
             "4" => {
-
+                break;
             }
             _ => {
                 println(" INVALID CHOICE.", Some(str_prefix_resp));
