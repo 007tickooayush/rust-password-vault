@@ -1,6 +1,6 @@
 use std::fs::OpenOptions;
 use std::io;
-use std::io::Write;
+use std::io::{Error, ErrorKind, Write};
 use serde::{Deserialize, Serialize};
 use crate::utils::println;
 
@@ -64,20 +64,6 @@ impl<'pass> Vault<'pass> {
 
 }
 
-/// Function to create prompt using input string
-/// NOTE: can not be tested as it requires user input from stdin
-///
-pub fn prompt<'a>(prompt: &'a mut String, prefix: Option<&'a str>) -> &'a str {
-    println(prompt, prefix);
-    io::stdout().flush().unwrap();
-
-    // let mut input = String::new();
-    // io::stdin().read_line(&mut input).unwrap();
-    // input.trim()
-
-    io::stdin().read_line(prompt).unwrap();
-    prompt.trim()
-}
 
 pub fn read_passwords_file() {
     todo!("define the function properly")
