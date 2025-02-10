@@ -4,7 +4,7 @@ mod utils;
 
 use crate::pentry::Vault;
 use crate::prompt::Prompt;
-use crate::utils::{println, read_passwords_file};
+use crate::utils::{println, read_passwords_file, search_passwords_file};
 
 fn clr() {
     print!("{}[2J", 27 as char);
@@ -70,9 +70,51 @@ ____    ____  ___       __       __    __  .___________. _______ .______
             }
             "2" => {
                 // todo!("Make the function async and return Result<> with Error and perform Error Handling for the returned Result")
-                let services = read_passwords_file();
+                let services = read_passwords_file().map_err(|e| {
+                    println(&e.to_string(), None);
+                    e
+                });
+
+                match services {
+                    Ok(services) => {
+                        for service in services {
+                            println(service.service.as_str(), Some("SERVICE: "));
+                            println(service.username.as_str(), Some("USERNAME: "));
+                            println(service.password.as_str(), Some("PASSWORD: "));
+                            println!("\n\n");
+                        }
+                    }
+                    Err(e) => {
+                        println(&e.to_string(), None);
+                    }
+                }
+
             }
-            "3" => {}
+            "3" => {
+                let search_term = Prompt::prompt(
+                    "PROVIDE SEARCH TERM: ",
+                    Some(str_prefix_choice),
+                );
+
+                if let Ok(search_term) = search_term {
+                    if !search_term.is_empty() {
+                        // improvised search technique
+                        // typecasting and rendering only the line that contains the search results
+
+                        let search_results = search_passwords_file(&search_term).unwrap();
+
+                        println!("\n\n");
+                        for item in search_results {
+                            println(item.service.as_str(), Some("SERVICE: "));
+                            println(item.username.as_str(), Some("USERNAME: "));
+                            println(item.password.as_str(), Some("PASSWORD: "));
+                            println!("\n\n");
+                        }
+
+                    }
+                }
+
+            }
             "4" => {
                 break;
             }
