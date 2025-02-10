@@ -2,10 +2,9 @@ mod pentry;
 mod prompt;
 mod utils;
 
-use crate::pentry::read_passwords_file;
 use crate::pentry::Vault;
 use crate::prompt::Prompt;
-use crate::utils::println;
+use crate::utils::{println, read_passwords_file};
 
 fn clr() {
     print!("{}[2J", 27 as char);
@@ -64,14 +63,14 @@ ____    ____  ___       __       __    __  .___________. _______ .______
                 )
                 .unwrap();
 
-                let vault = Vault::new(service.as_str(), username.as_str(), password.as_str());
+                let vault = Vault::new(service, username, password);
 
                 println("ENTRY ADDED SUCCESSFULLY", Some(str_prefix_resp));
                 let _ = vault.write_to_file().unwrap();
             }
             "2" => {
-                todo!("Make the function async and return Result<> with Error and perform Error Handling for the returned Result")
-                // let services = read_passwords_file();
+                // todo!("Make the function async and return Result<> with Error and perform Error Handling for the returned Result")
+                let services = read_passwords_file();
             }
             "3" => {}
             "4" => {

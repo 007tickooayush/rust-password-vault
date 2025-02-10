@@ -1,14 +1,14 @@
-use std::fs::OpenOptions;
+use std::fs::{File, OpenOptions};
 use std::io;
-use std::io::{Error, ErrorKind, Write};
+use std::io::{BufRead, Error, ErrorKind, Write};
 use serde::{Deserialize, Serialize};
 use crate::utils::println;
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Vault<'pass> {
-    pub service: &'pass str,
-    pub username: &'pass str,
-    pub password: &'pass str,
+pub struct Vault {
+    pub service: String,
+    pub username: String,
+    pub password: String,
 }
 
 // #[derive(Debug, Serialize, Deserialize)]
@@ -18,8 +18,9 @@ pub struct Vault<'pass> {
 //     pub password: String
 // }
 
-impl<'pass> Vault<'pass> {
-    pub fn new(service: &'pass str, username: &'pass str, password: &'pass str) -> Self {
+
+impl Vault {
+    pub fn new(service: String, username: String, password: String) -> Self {
         Vault {
             service,
             username,
@@ -27,10 +28,10 @@ impl<'pass> Vault<'pass> {
         }
     }
 
-    pub fn from_json(json_string: &'pass str) -> Result<Self, serde_json::Error> {
+    pub fn from_json(json_string: String) -> Result<Self, serde_json::Error> {
         // todo!("Implement this function");
         // unimplemented!("Implement this function")
-        serde_json::from_str(json_string)
+        serde_json::from_str(json_string.as_str())
     }
 
     fn to_json(&self) -> String {
@@ -69,6 +70,6 @@ impl<'pass> Vault<'pass> {
 
 #[test]
 fn test_new_vault() {
-    let vault = Vault::new("aws-s3", "ceo", "ceo");
+    let vault = Vault::new(String::from("aws-s3"), String::from("ceo"), String::from("ceo"));
     println!("{:?}", vault);
 }
