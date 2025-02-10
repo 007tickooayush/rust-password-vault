@@ -27,7 +27,7 @@ impl<'pass> Vault<'pass> {
         }
     }
 
-    fn from_json(json_string: &'pass str) -> Result<Self, serde_json::Error> {
+    pub fn from_json(json_string: &'pass str) -> Result<Self, serde_json::Error> {
         // todo!("Implement this function");
         // unimplemented!("Implement this function")
         serde_json::from_str(json_string)
@@ -65,9 +65,6 @@ impl<'pass> Vault<'pass> {
 }
 
 
-pub fn read_passwords_file() {
-    todo!("define the function properly")
-}
 
 
 #[test]
